@@ -4,11 +4,11 @@ import android.app.Application
 import android.text.Editable
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import kr.spartacodingclub.payment.ui.signup.SignUpActivity.Companion.EMAIL
-import kr.spartacodingclub.payment.ui.signup.SignUpActivity.Companion.PASSWORD
-import kr.spartacodingclub.payment.ui.signup.SignUpActivity.Companion.PHONE
-import kr.spartacodingclub.payment.ui.signup.SignUpActivity.Companion.ROLE
-import kr.spartacodingclub.payment.ui.signup.SignUpActivity.Companion.USER_NAME
+import kr.spartacodingclub.payment.util.Constants.EMAIL
+import kr.spartacodingclub.payment.util.Constants.PASSWORD
+import kr.spartacodingclub.payment.util.Constants.PHONE
+import kr.spartacodingclub.payment.util.Constants.ROLE
+import kr.spartacodingclub.payment.util.Constants.USER_NAME
 import kr.spartacodingclub.payment.util.RegexUtil
 import kr.spartacodingclub.payment.util.SharedPrefUtil
 

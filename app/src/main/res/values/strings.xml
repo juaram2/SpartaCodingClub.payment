@@ -31,4 +31,10 @@
     <string name="error_phone">연락처는 11자리여야 합니다.</string>
     <string name="error_pwd">비밀번호는 최소 6자리 이상, 영문, 숫자, 특수문자를 포함해야 합니다.</string>
     <string name="error_pwd_confirm">비밀번호가 일치하지 않습니다.</string>
+
+
+
+    <!-- 상품 -->
+    <string name="product_option"><b>용량</b>: 80ml - 1개</string>
+    <string name="product_price">$s원</string>
 </resources>

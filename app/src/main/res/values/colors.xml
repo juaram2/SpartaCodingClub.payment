@@ -6,8 +6,8 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#F000</color>
-    <color name="grey">#F333</color>
-    <color name="lt_grey">#Fccc</color>
+    <color name="grey">#F555</color>
+    <color name="lt_grey">#Faaa</color>
     <color name="white">#FFFF</color>
     <color name="red">#FF33</color>
 </resources>
