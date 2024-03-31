@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
@@ -21,11 +22,11 @@ import com.navercorp.nid.profile.data.NidProfileMap
 import kr.spartacodingclub.payment.databinding.ActivityMainBinding
 import kr.spartacodingclub.payment.ui.payment.PaymentActivity
 import kr.spartacodingclub.payment.ui.signup.SignUpActivity
-import kr.spartacodingclub.payment.util.SharedPrefUtil
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +34,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.viewModel = viewModel
         binding.lifecycleOwner = this
+        observe()
 
         // Naver Login
         binding.btnLoginNaver.setOnClickListener {
@@ -57,20 +60,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * preference 저장
-     */
-    private fun saveLoginInfo(name: String?, email: String?, phone: String?) {
-        val shared = SharedPrefUtil(this)
-        shared.setStringPreferences("USER_NAME", name ?: "")
-        shared.setStringPreferences("EMAIL", email ?: "")
-        shared.setStringPreferences("PHONE", phone ?: "")
-
-        val intent = Intent(this, PaymentActivity::class.java)
-        startActivity(intent)
-        finish()
+    private fun observe() {
+        viewModel.isSaved.observe(this) { isSaved ->
+            if (isSaved) {
+                val intent = Intent(this, PaymentActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
     }
-
 
 
     /**
@@ -102,7 +100,7 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "email : $email")
             Log.d(TAG, "mobile : $mobile")
 
-            saveLoginInfo(name, email, mobile)
+            viewModel.saveLoginInfo(name, email, mobile)
         }
         override fun onFailure(httpStatus: Int, message: String) {
             val errorCode = NaverIdLoginSDK.getLastErrorCode().code
@@ -167,7 +165,7 @@ class MainActivity : AppCompatActivity() {
                 Log.i(TAG, "사용자 정보 요청 성공" +
                         "\n닉네임: $name, 이메일: $email, 전화번호: $mobile")
 
-                saveLoginInfo(name, email, mobile)
+                viewModel.saveLoginInfo(name, email, mobile)
             }
         }
     }
@@ -205,7 +203,7 @@ class MainActivity : AppCompatActivity() {
             Log.d("success", "email: ${user?.email}")
             Log.d("success", "mobile: ${user?.phoneNumber}")
 
-            saveLoginInfo(user?.displayName, user?.email, user?.phoneNumber)
+            viewModel.saveLoginInfo(user?.displayName, user?.email, user?.phoneNumber)
         } else {
             Log.w("failed", "signInResult:failed code=${response?.error?.message}")
         }

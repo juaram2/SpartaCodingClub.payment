@@ -1,62 +1,71 @@
 package kr.spartacodingclub.payment.ui.signup
 
-import android.util.Log
+import android.app.Application
+import android.text.Editable
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import kr.spartacodingclub.payment.ui.signup.SignUpActivity.Companion.EMAIL
+import kr.spartacodingclub.payment.ui.signup.SignUpActivity.Companion.PASSWORD
+import kr.spartacodingclub.payment.ui.signup.SignUpActivity.Companion.PHONE
+import kr.spartacodingclub.payment.ui.signup.SignUpActivity.Companion.ROLE
+import kr.spartacodingclub.payment.ui.signup.SignUpActivity.Companion.USER_NAME
 import kr.spartacodingclub.payment.util.RegexUtil
+import kr.spartacodingclub.payment.util.SharedPrefUtil
 
-class SignUpViewModel() : ViewModel() {
-    private val regexUtil = RegexUtil
+class SignUpViewModel(app: Application) : AndroidViewModel(app) {
+
+    private val shared = SharedPrefUtil(app)
 
     var name = MutableLiveData<String>()
     var email = MutableLiveData<String>()
     var phone = MutableLiveData<String>()
     var role = MutableLiveData<String>()
-
-    var nameError = MutableLiveData<String?>()
-    var emailError = MutableLiveData<String?>()
-    var phoneError = MutableLiveData<String?>()
-    var roleError = MutableLiveData<String?>()
+    var pwd = MutableLiveData<String>()
 
 
-    fun inputName(input: CharSequence) {
-        name.value = input.toString()
+    fun checkName(input: Editable?): Boolean {
+        saveUserInfo(USER_NAME, input.toString())
+        return RegexUtil.checkName(input.toString())
     }
 
-    fun inputEmail(input: CharSequence) {
-        email.value = input.toString()
+    fun checkEmail(input: Editable?): Boolean {
+        saveUserInfo(EMAIL, input.toString())
+        return RegexUtil.checkEmail(input.toString())
     }
 
-    fun inputPhone(input: CharSequence) {
-        phone.value = input.toString()
+    fun checkPhone(input: Editable?): Boolean {
+        saveUserInfo(PHONE, input.toString())
+        return RegexUtil.checkPhone(input.toString())
     }
 
-    fun inputRole(input: CharSequence) {
-        role.value = input.toString()
+    fun checkRole(item: String): Boolean {
+        saveUserInfo(ROLE, item)
+        return item != "역할을 선택해주세요"
     }
 
-    fun setName(name: String) {
-
-        nameError.value = regexUtil.checkName(name)
+    fun checkPwd(input: Editable?): Boolean {
+        pwd.value = input.toString()
+        return RegexUtil.checkPassword(input.toString())
     }
 
-    fun setEmail(emile: String) {
-
-        emailError.value = regexUtil.checkEmail(emile)
-    }
-
-    fun setPhone(phone: String) {
-
-        phoneError.value = regexUtil.checkPhone(phone)
-    }
-
-    fun setRole(role: String) {
-
-    }
-
-    fun check():Boolean {
-
-
+    fun checkPwdConfirm(input: Editable?): Boolean {
+        pwd.value?.let {
+            saveUserInfo(PASSWORD, input.toString())
+            return RegexUtil.checkConfirmPassword(it, input.toString())
+        }
         return false
+    }
+
+    private fun saveUserInfo(key: String, value: String) {
+        shared.setStringPreferences(key, value)
+    }
+
+    fun getUserInfo(): String {
+        val name = shared.getStringPreferences(USER_NAME, "")
+        val email = shared.getStringPreferences(EMAIL, "")
+        val phone = shared.getStringPreferences(PHONE, "")
+        val role = shared.getStringPreferences(ROLE, "")
+        val pwd = shared.getStringPreferences(PASSWORD, "")
+        return "$name\n$email\n$phone\n$role\n$pwd"
     }
 }

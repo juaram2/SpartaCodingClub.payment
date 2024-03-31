@@ -33,4 +33,11 @@ class SignUpActivity : AppCompatActivity() {
 
     }
 
+    companion object {
+        const val USER_NAME = "username"
+        const val EMAIL = "email"
+        const val PHONE = "phone"
+        const val ROLE = "role"
+        const val PASSWORD = "password"
+    }
 }

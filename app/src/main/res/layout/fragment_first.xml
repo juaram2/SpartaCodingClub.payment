@@ -32,120 +32,64 @@
             android:text="@string/sign_up_subtitle"
             app:layout_constraintTop_toBottomOf="@id/title" />
 
-
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layoutName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@id/subtitle">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:labelFor="@id/editName"
-                android:text="@string/name"
-                android:textSize="12sp" />
 
             <EditText
                 android:id="@+id/editName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:autofillHints="name"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:ems="10"
                 android:inputType="text"
-                android:maxLines="1"
-                android:onTextChanged="@{(s, start, before, count) -> viewModel.inputName(s)}"
-                android:textSize="15sp"
-                app:layout_constraintTop_toBottomOf="@id/subtitle" />
+                android:hint="@string/name" />
 
-            <TextView
-                android:id="@+id/errorName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:textColor="@color/red"
-                android:textSize="12sp"
-                android:visibility="gone"
-                tools:text="이름 오류"
-                tools:visibility="visible" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        </com.google.android.material.textfield.TextInputLayout>
 
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layoutEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@id/layoutName">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:labelFor="@id/editEmail"
-                android:text="@string/email"
-                android:textSize="12sp" />
 
             <EditText
                 android:id="@+id/editEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:autofillHints="emailAddress"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:ems="10"
                 android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:onTextChanged="@{(s, start, before, count) -> viewModel.inputEmail(s)}"
-                android:textSize="15sp" />
+                android:hint="@string/email" />
 
-            <TextView
-                android:id="@+id/errorEmail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:textColor="@color/red"
-                android:textSize="12sp"
-                android:visibility="gone"
-                tools:text="이매일 오류"
-                tools:visibility="visible" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        </com.google.android.material.textfield.TextInputLayout>
 
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layoutPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@id/layoutEmail">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:labelFor="@id/editPhone"
-                android:text="@string/phone"
-                android:textSize="12sp" />
 
             <EditText
                 android:id="@+id/editPhone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:autofillHints="phone"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:ems="10"
                 android:inputType="phone"
-                android:maxLines="1"
-                android:onTextChanged="@{(s, start, before, count) -> viewModel.inputPhone(s)}"
-                android:textSize="15sp" />
+                android:hint="@string/phone" />
 
-            <TextView
-                android:id="@+id/errorPhone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:textColor="@color/red"
-                android:textSize="12sp"
-                android:visibility="gone"
-                tools:text="연락처 오류"
-                tools:visibility="visible" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        </com.google.android.material.textfield.TextInputLayout>
 
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -173,11 +117,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:text="@string/choose_role"
                 android:textColor="@color/red"
                 android:textSize="12sp"
-                android:visibility="gone"
-                tools:visibility="visible" />
+                tools:text="@string/choose_role"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <Button

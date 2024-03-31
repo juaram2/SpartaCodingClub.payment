@@ -13,55 +13,42 @@ object RegexUtil {
     private const val NAME_MAM_COUNT = 20
 
 
-    fun checkName(name: String?): String? {
-        val pattern =
-            "^[ㄱ-ㅎㅏ-ㅣ가-힣ᆞ|ᆢ|ㆍ|ᆢ|ᄀᆞ|ᄂᆞ|ᄃᆞ|ᄅᆞ|ᄆᆞ|ᄇᆞ|ᄉᆞ|ᄋᆞ|ᄌᆞ|ᄎᆞ|ᄏᆞ|ᄐᆞ|ᄑᆞ|ᄒᆞa-zA-Z]{$NAME_MIN_COUNT, $NAME_MAM_COUNT}$"
+    fun checkName(name: String): Boolean {
+        val pattern = "^[ㄱ-ㅎ가-힣a-zA-Z]{$NAME_MIN_COUNT,$NAME_MAM_COUNT}$"
         val m = Pattern.compile(pattern).matcher(name)
 
-        if (!m.matches() || name?.isEmpty() == true) {
-            return "이름은 2글자 이상이어야 합니다."
-        }
-        return null
+        return !(!m.find() || name.isEmpty())
     }
 
 
-    fun checkEmail(email: String?): String? {
+    fun checkEmail(email: String): Boolean {
         val pattern = Patterns.EMAIL_ADDRESS
+        val m = pattern.matcher(email)
 
-        if (!pattern.matcher(email).matches() || email?.isEmpty() == true) {
-            return "올바른 이메일을 입력해주세요."
-        }
-        return null
+        return !(!m.find() || email.isEmpty())
     }
 
 
-    fun checkPhone(phone: String?): String? {
+    fun checkPhone(phone: String): Boolean {
         val pattern = "^[0-9]{$PHONE_MIN_COUNT}$"
         val m = Pattern.compile(pattern).matcher(phone)
 
-        if (!m.matches() || phone?.isEmpty() == true) {
-            return "연락처는 11자리여야 합니다."
-        }
-        return null
+        return !(!m.find() || phone.isEmpty())
     }
 
 
-    fun checkPassword(password: String?): String? {
+    fun checkPassword(password: String): Boolean {
         val pattern =
-            "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_~])[a-zA-Z0-9!@#$%^&*?_~]{$PASSWORD_MIN_COUNT, $PASSWORD_MAX_COUNT}$"
-        val m: Matcher = Pattern.compile(pattern).matcher(password)
+            "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_~])[a-zA-Z0-9!@#$%^&*?_~]{$PASSWORD_MIN_COUNT,$PASSWORD_MAX_COUNT}$"
+        val m = Pattern.compile(pattern).matcher(password)
 
-        if (!m.matches() || password?.isEmpty() == true) {
-            return "비밀번호는 최소 6자리 이상, 영문, 숫자, 특수문자를 포함해야 합니다."
-        }
-        return null
+        return !(!m.find() || password.isEmpty())
+//            "비밀번호는 최소 6자리 이상, 영문, 숫자, 특수문자를 포함해야 합니다."
     }
 
 
-    fun checkConfirmPassword(password: String?, confirm: String?): String? {
-        if (password != confirm) {
-            return "비밀번호가 일치하지 않습니다."
-        }
-        return null
+    fun checkConfirmPassword(password: String, confirm: String): Boolean {
+        return password == confirm
+//            "비밀번호가 일치하지 않습니다."
     }
 }

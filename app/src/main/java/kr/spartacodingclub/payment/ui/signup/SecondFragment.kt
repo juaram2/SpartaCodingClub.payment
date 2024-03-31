@@ -1,29 +1,37 @@
 package kr.spartacodingclub.payment.ui.signup
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import kr.spartacodingclub.payment.R
 import kr.spartacodingclub.payment.databinding.FragmentSecondBinding
+import kr.spartacodingclub.payment.ui.payment.PaymentActivity
 
 
 class SecondFragment : Fragment() {
 
-    private var _binding: FragmentSecondBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var _binding: FragmentSecondBinding
+    private val binding get() = _binding
 
     private val viewModel: SignUpViewModel by viewModels()
+
+    private var isCheckPwd: Boolean = false
+    private var isCheckPwdConfirm: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
         return binding.root
 
     }
@@ -31,16 +39,60 @@ class SecondFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonSecond.setOnClickListener {
+        binding.btnPrev.setOnClickListener {
+            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
         }
 
-        if (true) {
-//            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
+        binding.btnReg.setOnClickListener {
+            pwd()
+            pwdConfirm()
+
+            if (isCheckPwd && isCheckPwdConfirm) {
+                showDialog()
+            }
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+
+    private fun pwd() {
+        with(binding.layoutPwd) {
+            isCheckPwd = viewModel.checkPwd(editText?.text)
+            if (!isCheckPwd) {
+                error = getString(R.string.error_pwd)
+            }
+            isErrorEnabled = !isCheckPwd
+        }
+    }
+
+    private fun pwdConfirm() {
+        with(binding.layoutConfirm) {
+            isCheckPwdConfirm = viewModel.checkPwdConfirm(editText?.text)
+            if (!isCheckPwdConfirm) {
+                error = getString(R.string.error_pwd)
+            }
+            isErrorEnabled = !isCheckPwdConfirm
+        }
+    }
+
+
+    private fun showDialog() {
+        val userInfo = viewModel.getUserInfo()
+
+        val builder = AlertDialog.Builder(requireContext())
+        builder.apply {
+            setCancelable(false)
+            setTitle(getString(R.string.sign_up_dialig_title))
+            setMessage(userInfo)
+            setPositiveButton(getString(R.string.confirm)) { dialog, _ ->
+                val intent = Intent(requireContext(), PaymentActivity::class.java)
+                startActivity(intent)
+                dialog.dismiss()
+            }
+            setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            val dialog = create()
+            dialog.show()
+        }
     }
 }
