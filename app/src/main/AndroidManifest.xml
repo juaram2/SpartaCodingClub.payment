@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <!-- 인터넷 사용 권한 설정 -->
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -15,12 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Spartacodingclubpayment"
         tools:targetApi="31">
-        <activity
-            android:name=".ui.payment.PaymentActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.signup.SignUpActivity"
-            android:exported="false" />
+
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true">
@@ -30,9 +26,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.MainActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".ui.signup.SignUpActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.payment.PaymentActivity"
+            android:exported="false" />
+
 
         <!-- Kakao SDK -->
         <activity
@@ -53,6 +59,7 @@
                 <data android:host="address" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

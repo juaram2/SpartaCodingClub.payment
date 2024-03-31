@@ -20,8 +20,6 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         manifestPlaceholders ["NATIVE_APP_KEY"] = "5f623e886b3a8129a377a1a63c63b015"
-        resValue("string", "kakao_app_key", "5f623e886b3a8129a377a1a63c63b015")
-        resValue("string", "google_client_id", "AIzaSyDAGUvHj3j48Jh7dvF740JXQsOcKJuzOA8")
     }
 
     buildTypes {
@@ -78,14 +76,19 @@ dependencies {
     kapt("com.google.dagger:hilt-compiler:2.48.1")
 
     // 카카오 로그인 API 모듈
+    implementation("com.kakao.sdk:v2-common:2.20.1")
+    implementation("com.kakao.sdk:v2-auth:2.20.1")
     implementation("com.kakao.sdk:v2-user:2.20.1")
 
 
     // 네이버 로그인 API 모듈
-    implementation("com.navercorp.nid:oauth:5.9.0") // jdk 11
+//    implementation("com.navercorp.nid:oauth:5.9.0") // jdk 11
+    implementation("com.navercorp.nid:oauth-jdk8:5.9.0") // jdk 8
+
 
     // 구글 로그인 API 모듈
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
+    implementation("com.firebaseui:firebase-ui-auth:7.2.0")
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
 
