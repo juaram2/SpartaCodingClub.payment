@@ -1,6 +1,7 @@
 package kr.spartacodingclub.payment.ui.payment
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import kr.spartacodingclub.payment.util.Constants.ADDRESS
@@ -20,9 +21,10 @@ class PaymentViewModel(app: Application): AndroidViewModel(app) {
 
 
     init {
-        userName.value = shared.getStringPreferences(USER_NAME, "")
-        email.value = shared.getStringPreferences(EMAIL, "")
-        phone.value = shared.getStringPreferences(PHONE, "")
-        address.value = shared.getStringPreferences(ADDRESS, "")
+        Log.d("username", shared.getStringPreferences(USER_NAME, null).toString())
+        userName.value = shared.getStringPreferences(USER_NAME, null)
+        email.value = shared.getStringPreferences(EMAIL, null)
+        phone.value = shared.getStringPreferences(PHONE, null)
+        address.value = shared.getStringPreferences(ADDRESS, null)
     }
 }

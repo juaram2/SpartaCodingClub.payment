@@ -33,7 +33,6 @@
     <string name="error_pwd_confirm">비밀번호가 일치하지 않습니다.</string>
 
 
-
     <!-- 상품 -->
     <string name="product_option"><b>용량</b>: 80ml - 1개</string>
     <string name="product_price">$s원</string>

@@ -19,6 +19,7 @@ import com.navercorp.nid.oauth.NidOAuthLogin
 import com.navercorp.nid.oauth.OAuthLoginCallback
 import com.navercorp.nid.profile.NidProfileCallback
 import com.navercorp.nid.profile.data.NidProfileMap
+import com.tosspayments.paymentsdk.view.PaymentMethod
 import kr.spartacodingclub.payment.databinding.ActivityMainBinding
 import kr.spartacodingclub.payment.ui.payment.PaymentActivity
 import kr.spartacodingclub.payment.ui.signup.SignUpActivity
@@ -63,7 +64,18 @@ class MainActivity : AppCompatActivity() {
     private fun observe() {
         viewModel.isSaved.observe(this) { isSaved ->
             if (isSaved) {
-                val intent = Intent(this, PaymentActivity::class.java)
+                val intent = Intent(PaymentActivity.getIntent(
+                    this@MainActivity,
+                    amount = 19500,
+                    clientKey = "test_ck_P9BRQmyarYDJ0PmaOmJaVJ07KzLN",
+                    customerKey = "test_sk_E92LAa5PVbNZJ1D5A5aZV7YmpXyJ",
+                    orderId = "uiState.orderId",
+                    orderName = "uiState.orderName",
+                    currency = PaymentMethod.Rendering.Currency.KRW,
+                    countryCode = "KR",
+                    variantKey = "viewModel.variantKey",
+//                    redirectUrl = uiState.redirectUrl
+                    ))
                 startActivity(intent)
                 finish()
             }
