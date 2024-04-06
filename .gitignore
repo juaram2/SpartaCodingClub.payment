@@ -22,12 +22,16 @@ misc.xml
 deploymentTargetDropDown.xml
 render.experimental.xml
 
+# Mac OS
+.DS_Store
+App/.DS_Store
+
 # Keystore files
 *.jks
 *.keystore
 
 # Google Services (e.g. APIs or Firebase)
-google-services.json
+# google-services.json
 
 # Android Profiling
 *.hprof

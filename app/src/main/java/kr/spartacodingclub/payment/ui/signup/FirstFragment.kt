@@ -1,12 +1,11 @@
 package kr.spartacodingclub.payment.ui.signup
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -16,8 +15,7 @@ import kr.spartacodingclub.payment.databinding.FragmentFirstBinding
 
 class FirstFragment : Fragment() {
 
-    private lateinit var _binding: FragmentFirstBinding
-    private val binding get() = _binding
+    private lateinit var binding: FragmentFirstBinding
 
     private val viewModel: SignUpViewModel by viewModels()
 
@@ -30,7 +28,7 @@ class FirstFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        binding = FragmentFirstBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
@@ -48,19 +46,7 @@ class FirstFragment : Fragment() {
                 requireContext(), R.array.role_array, android.R.layout.simple_spinner_item
             ).also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                this.adapter = adapter
-            }
-
-            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(spinner: AdapterView<*>?, item: View?, p2: Int, p3: Long) {
-                    role(spinner)
-                    Log.d(TAG, "onItemSelected ${spinner?.selectedItem}")
-                }
-
-                override fun onNothingSelected(spinner: AdapterView<*>?) {
-                    role(spinner)
-                    Log.d(TAG, "onNothingSelected")
-                }
+                setAdapter(adapter)
             }
         }
 
@@ -72,9 +58,7 @@ class FirstFragment : Fragment() {
             name()
             email()
             phone()
-            if (!isCheckRole) {
-                binding.errorRole.text = getString(R.string.choose_role)
-            }
+            role()
 
             if (isCheckName && isCheckEmail && isCheckPhone && isCheckRole) {
                 findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
@@ -89,6 +73,12 @@ class FirstFragment : Fragment() {
                 error = getString(R.string.error_name)
             }
             isErrorEnabled = !isCheckName
+
+            if (isErrorEnabled) {
+                editText?.doOnTextChanged { text, start, before, count ->
+                    error = null
+                }
+            }
         }
     }
 
@@ -99,6 +89,12 @@ class FirstFragment : Fragment() {
                 error = getString(R.string.error_email)
             }
             isErrorEnabled = !isCheckEmail
+
+            if (isErrorEnabled) {
+                editText?.doOnTextChanged { text, start, before, count ->
+                    error = null
+                }
+            }
         }
     }
 
@@ -109,11 +105,29 @@ class FirstFragment : Fragment() {
                 error = getString(R.string.error_phone)
             }
             isErrorEnabled = !isCheckPhone
+
+            if (isErrorEnabled) {
+                editText?.doOnTextChanged { text, start, before, count ->
+                    error = null
+                }
+            }
         }
     }
 
-    private fun role(spinner: AdapterView<*>?) {
-        isCheckRole = viewModel.checkRole(spinner?.selectedItem.toString())
+    private fun role() {
+        with(binding.layoutRole) {
+            isCheckRole = viewModel.checkRole(editText?.text.toString())
+            if (!isCheckRole) {
+                error = getString(R.string.choose_role)
+            }
+            isErrorEnabled = !isCheckRole
+
+            if (isErrorEnabled) {
+                editText?.doOnTextChanged { text, start, before, count ->
+                    error = null
+                }
+            }
+        }
     }
 
     companion object {

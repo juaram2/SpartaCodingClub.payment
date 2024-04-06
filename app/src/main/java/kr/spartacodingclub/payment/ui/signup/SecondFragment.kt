@@ -6,9 +6,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import kr.spartacodingclub.payment.R
 import kr.spartacodingclub.payment.databinding.FragmentSecondBinding
 import kr.spartacodingclub.payment.ui.payment.PaymentActivity
@@ -16,19 +16,19 @@ import kr.spartacodingclub.payment.ui.payment.PaymentActivity
 
 class SecondFragment : Fragment() {
 
-    private lateinit var _binding: FragmentSecondBinding
-    private val binding get() = _binding
+    private lateinit var binding: FragmentSecondBinding
 
     private val viewModel: SignUpViewModel by viewModels()
 
     private var isCheckPwd: Boolean = false
     private var isCheckPwdConfirm: Boolean = false
+    private var isCheckPolicy: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSecondBinding.inflate(inflater, container, false)
+        binding = FragmentSecondBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
@@ -40,14 +40,15 @@ class SecondFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnPrev.setOnClickListener {
-            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
+            parentFragmentManager.popBackStack()
         }
 
         binding.btnReg.setOnClickListener {
             pwd()
             pwdConfirm()
+            policy()
 
-            if (isCheckPwd && isCheckPwdConfirm) {
+            if (isCheckPwd && isCheckPwdConfirm && isCheckPolicy) {
                 showDialog()
             }
         }
@@ -61,6 +62,12 @@ class SecondFragment : Fragment() {
                 error = getString(R.string.error_pwd)
             }
             isErrorEnabled = !isCheckPwd
+
+            if (isErrorEnabled) {
+                editText?.doOnTextChanged { text, start, before, count ->
+                    error = null
+                }
+            }
         }
     }
 
@@ -68,10 +75,25 @@ class SecondFragment : Fragment() {
         with(binding.layoutConfirm) {
             isCheckPwdConfirm = viewModel.checkPwdConfirm(editText?.text)
             if (!isCheckPwdConfirm) {
-                error = getString(R.string.error_pwd)
+                error = getString(R.string.error_pwd_confirm)
             }
             isErrorEnabled = !isCheckPwdConfirm
+
+            if (isErrorEnabled) {
+                editText?.doOnTextChanged { text, start, before, count ->
+                    error = null
+                }
+            }
         }
+    }
+
+    private fun policy() {
+        if (!binding.cbPolicy.isChecked) {
+            binding.errorPolicy.text = getString(R.string.error_policy)
+        } else {
+            binding.errorPolicy.text = ""
+        }
+        isCheckPolicy = binding.cbPolicy.isChecked
     }
 
 
@@ -86,9 +108,6 @@ class SecondFragment : Fragment() {
             setPositiveButton(getString(R.string.confirm)) { dialog, _ ->
                 val intent = Intent(requireContext(), PaymentActivity::class.java)
                 startActivity(intent)
-                dialog.dismiss()
-            }
-            setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                 dialog.dismiss()
             }
             val dialog = create()

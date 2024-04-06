@@ -35,7 +35,9 @@
             android:exported="false" />
         <activity
             android:name=".ui.payment.PaymentActivity"
-            android:exported="false" /> <!-- Kakao SDK -->
+            android:exported="false" />
+
+        <!-- Kakao SDK -->
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
@@ -46,11 +48,11 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <!-- Redirect URI: "kakao${NATIVE_APP_KEY}://oauth" -->
-                <data android:scheme="kakao${NATIVE_APP_KEY}" />
+                <data android:scheme="kakao${KAKAO_NATIVE_APP_KEY}" />
                 <data android:host="oauth" />
 
                 <!-- 배송지 피커를 위한 설정 -->
-                <data android:scheme="kakao${NATIVE_APP_KEY}" />
+                <data android:scheme="kakao${KAKAO_NATIVE_APP_KEY}" />
                 <data android:host="address" />
             </intent-filter>
         </activity>

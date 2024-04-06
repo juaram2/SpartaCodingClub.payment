@@ -46,8 +46,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:ems="10"
-                android:inputType="text"
-                android:hint="@string/name" />
+                android:hint="@string/name"
+                android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -66,8 +66,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:ems="10"
-                android:inputType="textEmailAddress"
-                android:hint="@string/email" />
+                android:hint="@string/email"
+                android:inputType="textEmailAddress" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -86,41 +86,27 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:ems="10"
-                android:inputType="phone"
-                android:hint="@string/phone" />
+                android:hint="@string/phone"
+                android:inputType="phone" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layoutRole"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:orientation="vertical"
+            android:hint="@string/choose_role"
             app:layout_constraintTop_toBottomOf="@id/layoutPhone">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/role"
-                android:textSize="12sp" />
-
-            <Spinner
+            <AutoCompleteTextView
                 android:id="@+id/role"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp" />
-
-            <TextView
-                android:id="@+id/errorRole"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:textColor="@color/red"
-                android:textSize="12sp"
-                tools:text="@string/choose_role"/>
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                android:editable="false" />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <Button
             android:id="@+id/btnNext"

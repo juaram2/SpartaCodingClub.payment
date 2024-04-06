@@ -19,7 +19,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        manifestPlaceholders ["NATIVE_APP_KEY"] = "5f623e886b3a8129a377a1a63c63b015"
+        manifestPlaceholders ["KAKAO_NATIVE_APP_KEY"] = "5f623e886b3a8129a377a1a63c63b015"
     }
 
     buildTypes {

@@ -72,6 +72,29 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/layoutPolicy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/layoutConfirm">
+
+            <CheckBox
+                android:id="@+id/cbPolicy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/agree_with_policy" />
+
+            <TextView
+                android:id="@+id/errorPolicy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                tools:text="약관에 동의해주세요"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
         <Button
             android:id="@+id/btnReg"
             android:layout_width="0dp"
@@ -80,7 +103,7 @@
             android:text="@string/register"
             app:layout_constraintEnd_toStartOf="@id/btnPrev"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layoutConfirm" />
+            app:layout_constraintTop_toBottomOf="@id/layoutPolicy" />
 
         <Button
             android:id="@+id/btnPrev"
@@ -92,7 +115,7 @@
             android:text="@string/prev_step"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/btnReg"
-            app:layout_constraintTop_toBottomOf="@id/layoutConfirm" />
+            app:layout_constraintTop_toBottomOf="@id/layoutPolicy" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

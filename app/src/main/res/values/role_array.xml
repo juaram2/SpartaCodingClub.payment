@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="role_array">
-        <item>역할을 선택해주세요</item>
         <item>관리자</item>
         <item>일반사용자</item>
     </string-array>

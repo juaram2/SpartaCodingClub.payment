@@ -77,7 +77,6 @@ class MainActivity : AppCompatActivity() {
 //                    redirectUrl = uiState.redirectUrl
                     ))
                 startActivity(intent)
-                finish()
             }
         }
     }
@@ -96,7 +95,8 @@ class MainActivity : AppCompatActivity() {
         override fun onFailure(httpStatus: Int, message: String) {
             val errorCode = NaverIdLoginSDK.getLastErrorCode().code
             val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
-            Toast.makeText(this@MainActivity,"errorCode:$errorCode, errorDesc:$errorDescription",Toast.LENGTH_SHORT).show()
+            showToast("로그인에 실패했습니다")
+            Log.e(TAG, "네이버 로그인 실패 : $errorCode, $errorDescription")
         }
         override fun onError(errorCode: Int, message: String) {
             onFailure(errorCode, message)
@@ -108,16 +108,16 @@ class MainActivity : AppCompatActivity() {
             val name: String = response.profile?.get("name").toString()
             val email: String = response.profile?.get("email").toString()
             val mobile: String = response.profile?.get("mobile").toString()
-            Log.d(TAG, "name : $name")
-            Log.d(TAG, "email : $email")
-            Log.d(TAG, "mobile : $mobile")
 
+            showToast("로그인에 성공했습니다")
+            Log.i(TAG, "네이러 로그인 성공 : ${response.profile}")
             viewModel.saveLoginInfo(name, email, mobile)
         }
         override fun onFailure(httpStatus: Int, message: String) {
             val errorCode = NaverIdLoginSDK.getLastErrorCode().code
             val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
-            Toast.makeText(this@MainActivity, "errorCode: $errorCode, errorDesc: $errorDescription", Toast.LENGTH_SHORT).show()
+            showToast("로그인에 실패했습니다")
+            Log.e(TAG, "네이버 로그인 실패 : $errorCode, $errorDescription")
         }
         override fun onError(errorCode: Int, message: String) {
             onFailure(errorCode, message)
@@ -133,7 +133,7 @@ class MainActivity : AppCompatActivity() {
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
             UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
                 if (error != null) {
-                    Log.e(TAG, "카카오톡으로 로그인 실패", error)
+                    Log.e(TAG, "카카오톡으로 로그인 실패 : ${error.message}")
 
                     // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
                     // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
@@ -144,7 +144,8 @@ class MainActivity : AppCompatActivity() {
                     // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인 시도
                     UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
                 } else if (token != null) {
-                    Log.i(TAG, "카카오톡으로 로그인 성공 ${token.accessToken}")
+                    showToast("로그인에 성공했습니다")
+                    Log.i(TAG, "카카오톡으로 로그인 성공 : ${token.accessToken}")
                     getKakaoUserInfo()
                 }
             }
@@ -157,9 +158,11 @@ class MainActivity : AppCompatActivity() {
     // 카카오톡으로 로그인 할 수 없어 카카오계정으로 로그인할 경우 사용됨
     private val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
-            Log.e(TAG, "카카오계정으로 로그인 실패", error)
+            showToast("로그인에 실패했습니다")
+            Log.e(TAG, "카카오계정으로 로그인 실패 : ${error.message}")
         } else if (token != null) {
-            Log.i(TAG, "카카오계정으로 로그인 성공 ${token.accessToken}")
+            showToast("로그인에 성공했습니다")
+            Log.i(TAG, "카카오계정으로 로그인 성공 : ${token.accessToken}")
             getKakaoUserInfo()
         }
     }
@@ -168,14 +171,15 @@ class MainActivity : AppCompatActivity() {
         // 사용자 정보 요청 (기본)
         UserApiClient.instance.me { user, error ->
             if (error != null) {
-                Log.e(TAG, "사용자 정보 요청 실패", error)
+                showToast("사용자 정보 요청에 실패했습니다")
+                Log.e(TAG, "사용자 정보 요청 실패 : ${error.message}")
             }
             else if (user != null) {
                 val name = user.kakaoAccount?.profile?.nickname
                 val email = user.kakaoAccount?.email
                 val mobile = user.kakaoAccount?.phoneNumber
-                Log.i(TAG, "사용자 정보 요청 성공" +
-                        "\n닉네임: $name, 이메일: $email, 전화번호: $mobile")
+                showToast("사용자 정보 요청에 성공했습니다")
+                Log.i(TAG, "사용자 정보 요청 성공 : $user")
 
                 viewModel.saveLoginInfo(name, email, mobile)
             }
@@ -211,16 +215,19 @@ class MainActivity : AppCompatActivity() {
             // Successfully signed in
             val user = FirebaseAuth.getInstance().currentUser
 
-            Log.d("success", "name: ${user?.displayName}")
-            Log.d("success", "email: ${user?.email}")
-            Log.d("success", "mobile: ${user?.phoneNumber}")
+            showToast("로그인에 성공했습니다")
+            Log.d(TAG, "구글 로그인 성공 : ${user?.email}, ${user?.phoneNumber}, ${user?.displayName}")
 
             viewModel.saveLoginInfo(user?.displayName, user?.email, user?.phoneNumber)
         } else {
-            Log.w("failed", "signInResult:failed code=${response?.error?.message}")
+            showToast("로그인에 실패했습니다")
+            Log.w(TAG, "구글 로그인 실페 : ${response?.error?.message}")
         }
     }
 
+    private fun showToast(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
 
     companion object {
         private const val TAG = "MainActivity"

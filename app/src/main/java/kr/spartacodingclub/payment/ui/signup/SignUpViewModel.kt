@@ -24,13 +24,13 @@ class SignUpViewModel(app: Application) : AndroidViewModel(app) {
 
 
     fun checkName(input: Editable?): Boolean {
-        saveUserInfo(USER_NAME, input.toString())
-        return RegexUtil.checkName(input.toString())
+        saveUserInfo(USER_NAME, input?.trim().toString())
+        return RegexUtil.checkName(input?.trim().toString())
     }
 
     fun checkEmail(input: Editable?): Boolean {
-        saveUserInfo(EMAIL, input.toString())
-        return RegexUtil.checkEmail(input.toString())
+        saveUserInfo(EMAIL, input?.trim().toString())
+        return RegexUtil.checkEmail(input?.trim().toString())
     }
 
     fun checkPhone(input: Editable?): Boolean {
@@ -40,7 +40,7 @@ class SignUpViewModel(app: Application) : AndroidViewModel(app) {
 
     fun checkRole(item: String): Boolean {
         saveUserInfo(ROLE, item)
-        return item != "역할을 선택해주세요"
+        return item.isNotEmpty()
     }
 
     fun checkPwd(input: Editable?): Boolean {
