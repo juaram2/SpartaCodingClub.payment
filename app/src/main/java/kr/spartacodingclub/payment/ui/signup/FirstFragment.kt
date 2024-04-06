@@ -61,6 +61,7 @@ class FirstFragment : Fragment() {
             role()
 
             if (isCheckName && isCheckEmail && isCheckPhone && isCheckRole) {
+                viewModel.saveFirstInfo()
                 findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
             }
         }

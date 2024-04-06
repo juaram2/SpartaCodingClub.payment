@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout>
 
     <data>
 
@@ -10,552 +8,85 @@
             type="kr.spartacodingclub.payment.ui.payment.PaymentViewModel" />
     </data>
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        tools:context=".ui.payment.PaymentFragment">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="20dp"
-            tools:context=".ui.payment.PaymentActivity">
+            app:layout_constraintTop_toTopOf="parent">
 
-
-            <!-- 주문 상품 정보 -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardProduct"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"
-                app:contentPadding="20dp"
-                app:layout_constraintTop_toTopOf="parent">
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="20dp"
+                tools:context=".ui.payment.PaymentActivity">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <!-- 주문 상품 정보 -->
+                <include
+                    android:id="@+id/layoutProduct"
+                    layout="@layout/layout_product"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:viewModel="@{viewModel}" />
 
-                    <TextView
-                        android:id="@+id/titleProduct"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="주문 상품 정보"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/imgProduct"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_marginTop="10dp"
-                        android:src="@drawable/product"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/titleProduct" />
-
-                    <TextView
-                        android:id="@+id/productName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:text="Daily Facial Soap"
-                        android:textColor="@color/black"
-                        app:layout_constraintStart_toEndOf="@id/imgProduct"
-                        app:layout_constraintTop_toTopOf="@id/imgProduct" />
-
-                    <TextView
-                        android:id="@+id/productOption"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/product_option"
-                        android:textColor="@color/grey"
-                        android:textSize="13sp"
-                        app:layout_constraintStart_toStartOf="@id/productName"
-                        app:layout_constraintTop_toBottomOf="@id/productName" />
-
-                    <TextView
-                        android:id="@+id/productPrice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="@{viewModel.price}"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="@id/productName"
-                        app:layout_constraintTop_toBottomOf="@id/productOption"
-                        tools:text="18000원" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-
-
-            <!-- 주문자 정보 -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardUser"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"
-                app:contentPadding="20dp"
-                app:layout_constraintTop_toBottomOf="@id/cardProduct">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <!-- 주문자 정보 -->
+                <include
+                    android:id="@+id/layoutUserinfo"
+                    layout="@layout/layout_userinfo"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/layoutProduct"
+                    app:viewModel="@{viewModel}" />
 
-                    <TextView
-                        android:id="@+id/titleUser"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="주문자 정보"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/userName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="@{viewModel.userName}"
-                        android:textColor="@color/grey"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/titleUser"
-                        tools:text="user name" />
-
-                    <TextView
-                        android:id="@+id/userMobile"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{viewModel.phone}"
-                        android:textColor="@color/grey"
-                        android:textSize="13sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/userName"
-                        tools:text="01012341234" />
-
-                    <TextView
-                        android:id="@+id/userEmail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{viewModel.email}"
-                        android:textColor="@color/grey"
-                        android:textSize="13sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/userMobile"
-                        tools:text="aaa@aaa.com" />
-
-                    <Button
-                        android:id="@+id/btnEditUserInfo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:backgroundTint="@color/white"
-                        android:text="수정"
-                        android:textColor="@color/grey"
-                        android:textSize="13sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/titleUser" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-
-
-            <!-- 배송 정보 -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardShip"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"
-                app:contentPadding="20dp"
-                app:layout_constraintTop_toBottomOf="@id/cardUser">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <!-- 배송 정보 -->
+                <include
+                    android:id="@+id/layoutShipping"
+                    layout="@layout/layout_shipping"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/layoutUserinfo"
+                    app:viewModel="@{viewModel}" />
 
-                    <TextView
-                        android:id="@+id/titleShip"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="배송 정보"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/userNameShip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="@{viewModel.userName}"
-                        android:textColor="@color/grey"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/titleShip"
-                        tools:text="user name" />
-
-                    <TextView
-                        android:id="@+id/userMobileShip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{viewModel.phone}"
-                        android:textColor="@color/grey"
-                        android:textSize="13sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/userNameShip"
-                        tools:text="01012341234" />
-
-                    <TextView
-                        android:id="@+id/userAddress"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="@{viewModel.address}"
-                        android:textColor="@color/grey"
-                        android:textSize="13sp"
-                        app:layout_constraintEnd_toStartOf="@id/btnEditAddress"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/userMobileShip"
-                        tools:text="서울시 서대문구 성산로7길 89-8 (연희동) 주식회사 아임웹\n(01233)" />
-
-                    <TextView
-                        android:id="@+id/memoTitle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:text="배송 메모"
-                        android:textSize="12sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/userAddress" />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/layoutMemo"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:hint="배송 메모를 선택해 주세요"
-                        app:layout_constraintTop_toBottomOf="@id/memoTitle">
-
-                        <AutoCompleteTextView
-                            android:id="@+id/memo"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:editable="false" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <Button
-                        android:id="@+id/btnEditAddress"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:backgroundTint="@color/white"
-                        android:text="변경"
-                        android:textColor="@color/grey"
-                        android:textSize="12sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/titleShip" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-
-
-            <!-- 쿠폰/포인트 -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardCoupon"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"
-                app:contentPadding="20dp"
-                app:layout_constraintTop_toBottomOf="@id/cardShip">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <!-- 쿠폰/포인트 -->
+                <include
+                    android:id="@+id/layoutCoupon"
+                    layout="@layout/layout_coupon"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/layoutShipping"
+                    app:viewModel="@{viewModel}" />
 
-                    <TextView
-                        android:id="@+id/titleCoupon"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="쿠폰/포인트"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/layoutCoupon"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        app:layout_constraintEnd_toStartOf="@id/btnApplyCoupon"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/titleCoupon">
-
-                        <EditText
-                            android:id="@+id/editCoupon"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            android:ems="10"
-                            android:hint="쿠폰"
-                            android:inputType="number"
-                            android:textSize="14sp" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <Button
-                        android:id="@+id/btnApplyCoupon"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:backgroundTint="@color/blue"
-                        android:text="쿠폰적용"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="@id/layoutCoupon"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/layoutCoupon"
-                        app:layout_constraintTop_toTopOf="@id/layoutCoupon" />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/layoutPoint"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        app:layout_constraintEnd_toStartOf="@id/btnApplyPoint"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/layoutCoupon">
-
-                        <EditText
-                            android:id="@+id/editPoint"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            android:ems="10"
-                            android:hint="포인트"
-                            android:inputType="number"
-                            android:textSize="14sp" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <Button
-                        android:id="@+id/btnApplyPoint"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:backgroundTint="@color/blue"
-                        android:text="전액사용"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="@id/layoutPoint"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/layoutPoint"
-                        app:layout_constraintTop_toTopOf="@id/layoutPoint" />
-
-                    <TextView
-                        android:id="@+id/point"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:text="보유 포인트 20,300"
-                        android:textColor="@color/black"
-                        android:textSize="12sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/layoutPoint" />
-
-                    <TextView
-                        android:id="@+id/pointMeno"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="5,000 포인트 이상 보유 및 10,000원 이상 구매시 사용 가능"
-                        android:textColor="@color/lt_grey"
-                        android:textSize="11sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/point" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-
-
-            <!-- 최종 결제금액 -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardTotalPrice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"
-                app:contentPadding="20dp"
-                app:layout_constraintTop_toBottomOf="@id/cardCoupon">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <!-- 최종 결제 금액 -->
+                <include
+                    android:id="@+id/layoutTotal"
+                    layout="@layout/layout_total"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/layoutCoupon"
+                    app:viewModel="@{viewModel}" />
 
-                    <TextView
-                        android:id="@+id/titleTotalPrice"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="최종 결제금액"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        app:layout_constraintTop_toTopOf="parent" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/initPayment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/blue"
+                    android:text="@string/next_step"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layoutTotal" />
 
-                    <TextView
-                        android:id="@+id/labelPrice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="상품가격"
-                        android:textColor="@color/grey"
-                        android:textSize="13sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/titleTotalPrice" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
-                    <TextView
-                        android:id="@+id/valuePrice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{viewModel.price}"
-                        android:textColor="@color/grey"
-                        android:textSize="13sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/labelPrice"
-                        tools:text="18,000원" />
-
-                    <TextView
-                        android:id="@+id/labelCoupon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="쿠폰 할인"
-                        android:textColor="@color/grey"
-                        android:textSize="13sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/labelPrice" />
-
-                    <TextView
-                        android:id="@+id/valueCoupon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/grey"
-                        android:textSize="13sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/labelCoupon"
-                        tools:text="-1,000원" />
-
-                    <TextView
-                        android:id="@+id/labelPoint"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="포인트 사용"
-                        android:textColor="@color/grey"
-                        android:textSize="13sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/labelCoupon" />
-
-                    <TextView
-                        android:id="@+id/valuePoint"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/grey"
-                        android:textSize="13sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/labelPoint"
-                        tools:text="-0원" />
-
-                    <TextView
-                        android:id="@+id/labelShip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="배송비"
-                        android:textColor="@color/grey"
-                        android:textSize="13sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/labelPoint" />
-
-                    <TextView
-                        android:id="@+id/valueShip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/grey"
-                        android:textSize="13sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/labelShip"
-                        tools:text="+2,500원" />
-
-                    <View
-                        android:id="@+id/divider"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginVertical="20dp"
-                        android:background="@color/lt_grey"
-                        app:layout_constraintTop_toBottomOf="@id/labelShip" />
-
-                    <TextView
-                        android:id="@+id/labelTotal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:text="총 결제금액"
-                        android:textColor="@color/grey"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/divider" />
-
-                    <TextView
-                        android:id="@+id/valueTotal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/grey"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/labelTotal"
-                        tools:text="19,500원" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
-
-
-            <com.tosspayments.paymentsdk.view.PaymentMethod
-                android:id="@+id/payment_widget"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:layout_constraintBottom_toTopOf="@id/agreement_widget"
-                app:layout_constraintTop_toBottomOf="@id/cardTotalPrice" />
-
-            <com.tosspayments.paymentsdk.view.Agreement
-                android:id="@+id/agreement_widget"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:layout_constraintBottom_toTopOf="@id/requestPayment"
-                app:layout_constraintTop_toBottomOf="@id/agreement_widget" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/requestPayment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@color/blue"
-                android:text="결제하기"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/agreement_widget" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

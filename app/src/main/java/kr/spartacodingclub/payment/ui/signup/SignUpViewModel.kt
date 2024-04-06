@@ -5,8 +5,10 @@ import android.text.Editable
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import kr.spartacodingclub.payment.util.Constants.EMAIL
+import kr.spartacodingclub.payment.util.Constants.IS_LOGIN
 import kr.spartacodingclub.payment.util.Constants.PASSWORD
 import kr.spartacodingclub.payment.util.Constants.PHONE
+import kr.spartacodingclub.payment.util.Constants.POINT
 import kr.spartacodingclub.payment.util.Constants.ROLE
 import kr.spartacodingclub.payment.util.Constants.USER_NAME
 import kr.spartacodingclub.payment.util.RegexUtil
@@ -16,30 +18,31 @@ class SignUpViewModel(app: Application) : AndroidViewModel(app) {
 
     private val shared = SharedPrefUtil(app)
 
-    var name = MutableLiveData<String>()
-    var email = MutableLiveData<String>()
-    var phone = MutableLiveData<String>()
-    var role = MutableLiveData<String>()
-    var pwd = MutableLiveData<String>()
+    private val name = MutableLiveData<String>()
+    private val email = MutableLiveData<String>()
+    private val phone = MutableLiveData<String>()
+    private val role = MutableLiveData<String>()
+    private val pwd = MutableLiveData<String>()
+    private val pwdConfirm = MutableLiveData<String>()
 
 
     fun checkName(input: Editable?): Boolean {
-        saveUserInfo(USER_NAME, input?.trim().toString())
+        name.value = input?.trim().toString()
         return RegexUtil.checkName(input?.trim().toString())
     }
 
     fun checkEmail(input: Editable?): Boolean {
-        saveUserInfo(EMAIL, input?.trim().toString())
+        email.value = input?.trim().toString()
         return RegexUtil.checkEmail(input?.trim().toString())
     }
 
     fun checkPhone(input: Editable?): Boolean {
-        saveUserInfo(PHONE, input.toString())
+        phone.value = input.toString()
         return RegexUtil.checkPhone(input.toString())
     }
 
     fun checkRole(item: String): Boolean {
-        saveUserInfo(ROLE, item)
+        role.value = item
         return item.isNotEmpty()
     }
 
@@ -50,14 +53,23 @@ class SignUpViewModel(app: Application) : AndroidViewModel(app) {
 
     fun checkPwdConfirm(input: Editable?): Boolean {
         pwd.value?.let {
-            saveUserInfo(PASSWORD, input.toString())
+            pwdConfirm.value = input.toString()
             return RegexUtil.checkConfirmPassword(it, input.toString())
         }
         return false
     }
 
-    private fun saveUserInfo(key: String, value: String) {
-        shared.setStringPreferences(key, value)
+    fun saveFirstInfo() {
+        shared.setStringPreferences(USER_NAME, name.value)
+        shared.setStringPreferences(EMAIL, email.value)
+        shared.setStringPreferences(PHONE, phone.value)
+        shared.setStringPreferences(ROLE, role.value)
+    }
+
+    fun saveSecondInfo() {
+        shared.setStringPreferences(PASSWORD, pwdConfirm.value)
+        shared.setBooleanPreferences(IS_LOGIN, true)
+        shared.setIntPreferences(POINT, 5000) // 5000 포인트 부여
     }
 
     fun getUserInfo(): String {

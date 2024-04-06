@@ -43,12 +43,15 @@ object RegexUtil {
         val m = Pattern.compile(pattern).matcher(password)
 
         return !(!m.find() || password.isEmpty())
-//            "비밀번호는 최소 6자리 이상, 영문, 숫자, 특수문자를 포함해야 합니다."
     }
 
 
     fun checkConfirmPassword(password: String, confirm: String): Boolean {
         return password == confirm
-//            "비밀번호가 일치하지 않습니다."
+    }
+
+
+    fun checkValidPoint(userPoint: Int, use: Int): Boolean {
+        return userPoint >= use
     }
 }

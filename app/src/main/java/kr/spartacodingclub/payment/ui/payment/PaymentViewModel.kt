@@ -3,33 +3,113 @@ package kr.spartacodingclub.payment.ui.payment
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kr.spartacodingclub.payment.model.Coupon
+import kr.spartacodingclub.payment.model.UserInfo
 import kr.spartacodingclub.payment.util.Constants.ADDRESS
 import kr.spartacodingclub.payment.util.Constants.EMAIL
 import kr.spartacodingclub.payment.util.Constants.PHONE
+import kr.spartacodingclub.payment.util.Constants.POINT
 import kr.spartacodingclub.payment.util.Constants.USER_NAME
+import kr.spartacodingclub.payment.util.RegexUtil
 import kr.spartacodingclub.payment.util.SharedPrefUtil
 
-class PaymentViewModel(app: Application): AndroidViewModel(app) {
+class PaymentViewModel(app: Application) : AndroidViewModel(app) {
 
     private val shared = SharedPrefUtil(app)
 
-    val userName = MutableLiveData<String>()
-    val email = MutableLiveData<String>()
-    val phone = MutableLiveData<String>()
-    val address = MutableLiveData<String>()
+    private val price = MutableLiveData<Int>()
+    val priceString = MutableLiveData<String>()
+    val discount = MutableLiveData<Int>(0)
+    val point = MutableLiveData<Int>(0)
+    val total = MutableLiveData<Int>(0)
+    val shipping = MutableLiveData<Int>(2500)
 
-    val price = MutableLiveData<String>()
+    val showProgress = MutableLiveData<Boolean>(true)
+
+    private val _userInfo = MutableLiveData<UserInfo?>()
+    val userInfo: LiveData<UserInfo?> = _userInfo
+
+    private val couponList = arrayListOf<Coupon>(
+        Coupon("30% 할인 쿠폰", 30, "정률"),
+        Coupon("3000원 할인 쿠폰", 3000, "정액"),
+    )
 
     init {
-        Log.d("PHONE", "${shared.getStringPreferences(PHONE, "연락처를 입력해 주세요")}")
-        userName.value = shared.getStringPreferences(USER_NAME, "이름은 입력해 주세요")
-        email.value = shared.getStringPreferences(EMAIL, "이메일을 입력해 주세요")
-        phone.value = shared.getStringPreferences(PHONE, "연락처를 입력해 주세요")
-        address.value = shared.getStringPreferences(ADDRESS, "주소를 입력해 주세요")
+        viewModelScope.launch {
+            _userInfo.postValue(
+                UserInfo(
+                    name = shared.getStringPreferences(USER_NAME, "홍길동") ?: "",
+                    email = shared.getStringPreferences(EMAIL, "email@email.com"),
+                    phone = shared.getStringPreferences(PHONE, "01000000000"),
+                    address = shared.getStringPreferences(ADDRESS, "서울시 서초구 강남대로111"),
+                    point = shared.getIntPreferences(POINT, 0)
+                )
+            )
+        }
     }
 
-    fun setPrice(price: String) {
-        this.price.value = price
+    fun setPrice(amount: Int) {
+        price.postValue(amount)
+        total.postValue(amount.plus(shipping.value ?: 0))
+    }
+
+    fun setPriceString(amount: String) {
+        priceString.postValue(amount)
+    }
+
+    fun setCoupon(value: String) {
+        couponList.filter {
+            value == it.name
+        }.map {
+            if (it.type == "정률") {
+                val discountValue = price.value?.times(it.discount)?.div(100) ?: 0
+                discount.value = discountValue
+
+                setTotal(coupon = discountValue, point = point.value ?: 0)
+            } else if (it.type == "정액") {
+                val discountValue = it.discount
+                discount.value = discountValue
+
+                setTotal(coupon = discountValue, point = point.value ?: 0)
+            }
+        }
+    }
+
+    fun setPoint(value: String) {
+        var discountValue = 0
+        if (value.isNotEmpty() || value != "0") {
+            discountValue = value.toInt()
+            point.value = discountValue
+
+            setTotal(coupon = discount.value ?: 0, point = discountValue)
+        }
+    }
+
+    fun checkValidPoint(use: String): Boolean {
+        val userPoint = _userInfo.value?.point ?: 0
+
+        return RegexUtil.checkValidPoint(userPoint, use.toInt())
+    }
+
+    fun savePoint(point: Int) {
+        Log.d("Save Point", "$point 포인트 사용")
+        val userPoint = _userInfo.value?.point ?: shared.getIntPreferences(POINT, 0)
+        shared.setIntPreferences(POINT, userPoint.minus(point))
+    }
+
+    private fun setTotal(coupon: Int, point: Int) {
+        total.value = price.value?.minus(coupon)?.minus(point)?.plus(shipping.value ?: 0)
+    }
+
+    fun showProgress() {
+        viewModelScope.launch {
+            delay(2000)
+            showProgress.postValue(false)
+        }
     }
 }

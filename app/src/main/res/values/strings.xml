@@ -7,6 +7,8 @@
 
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_request_payment">RequestPaymentActivity</string>
 
     <string name="sign_up_title">계정을 생성합니다</string>
     <string name="sign_up_subtitle">필수 정보를 입력해주세요</string>
@@ -34,8 +36,36 @@
     <string name="error_pwd_confirm">비밀번호가 일치하지 않습니다.</string>
     <string name="error_policy">약관에 동의해주세요.</string>
 
-
     <!-- 상품 -->
     <string name="product_option"><b>용량</b>: 80ml - 1개</string>
-    <string name="product_price">%d원</string>
+    <string name="product_price">%,d원</string>
+    <string name="discount_price">-%,d원</string>
+    <string name="shipping_price">+%,d원</string>
+    <string name="request_payment">결제하기</string>
+    <string name="title_total_price">최종 결제금액</string>
+    <string name="label_price">상품가격</string>
+    <string name="label_discount">쿠폰 할인</string>
+    <string name="label_point_use">포인트 사용</string>
+    <string name="label_shipping_fee">배송비</string>
+    <string name="label_total">총 결제금액</string>
+    <string name="title_coupon">쿠폰/포인트</string>
+    <string name="label_coupon">쿠폰</string>
+    <string name="btn_coupon">쿠폰적용</string>
+    <string name="label_point">포인트</string>
+    <string name="btn_point_all">사용</string>
+    <string name="label_my_point">보유 포인트 %,d</string>
+    <string name="label_point_notice">5,000 포인트 이상 보유 및 10,000원 이상 구매시 사용 가능</string>
+    <string name="title_shipping">배송 정보</string>
+    <string name="label_memo">배송 메모</string>
+    <string name="label_memo_hint">배송 메모를 선택해 주세요</string>
+    <string name="btn_change">변경</string>
+    <string name="title_product">주문 상품 정보</string>
+    <string name="product_name">Daily Facial Soap</string>
+    <string name="title_user">주문자 정보</string>
+    <string name="btn_edit">수정</string>
+
+    <string name="message_back_pressed">뒤로가기를 한번 더 누르면 앱이 종료됩니다.</string>
+    <string name="logout">로그아웃</string>
+    <string name="go_home">처음으로</string>
+
 </resources>

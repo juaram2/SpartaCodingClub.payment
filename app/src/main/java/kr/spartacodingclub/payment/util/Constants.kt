@@ -10,4 +10,6 @@ object Constants {
 
     const val ADDRESS = "address"
 
+    const val IS_LOGIN = "isLogin"
+    const val POINT = "point"
 }

@@ -1,8 +1,6 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
     id("com.google.gms.google-services")
 }
 
@@ -65,15 +63,13 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
 
     // Lifecycle
-//    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
-//    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
-//    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
 
-    // Hilt
-    implementation("com.google.dagger:hilt-android:2.48.1")
+    // Navigation
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
-    kapt("com.google.dagger:hilt-compiler:2.48.1")
 
     // 카카오 로그인 API 모듈
     implementation("com.kakao.sdk:v2-common:2.20.1")

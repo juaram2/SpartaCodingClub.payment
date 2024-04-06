@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import kr.spartacodingclub.payment.R
 import kr.spartacodingclub.payment.ui.MainActivity
+import kr.spartacodingclub.payment.ui.login.LoginActivity
 
 class SplashActivity : AppCompatActivity() {
 
@@ -18,9 +19,19 @@ class SplashActivity : AppCompatActivity() {
 
         viewModel.showSplash.observe(this) { showSplash ->
             if (!showSplash) {
-                startMainActivity()
+                if (viewModel.isLogin()) {
+                    startMainActivity()
+                } else {
+                    startLoginActivity()
+                }
             }
         }
+    }
+
+    private fun startLoginActivity() {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun startMainActivity() {

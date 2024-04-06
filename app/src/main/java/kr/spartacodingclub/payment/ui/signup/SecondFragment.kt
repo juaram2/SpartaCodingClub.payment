@@ -9,10 +9,9 @@ import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.tosspayments.paymentsdk.view.PaymentMethod
 import kr.spartacodingclub.payment.R
 import kr.spartacodingclub.payment.databinding.FragmentSecondBinding
-import kr.spartacodingclub.payment.ui.payment.PaymentActivity
+import kr.spartacodingclub.payment.ui.MainActivity
 
 
 class SecondFragment : Fragment() {
@@ -50,6 +49,7 @@ class SecondFragment : Fragment() {
             policy()
 
             if (isCheckPwd && isCheckPwdConfirm && isCheckPolicy) {
+                viewModel.saveSecondInfo()
                 showDialog()
             }
         }
@@ -107,19 +107,9 @@ class SecondFragment : Fragment() {
             setTitle(getString(R.string.sign_up_dialig_title))
             setMessage(userInfo)
             setPositiveButton(getString(R.string.confirm)) { dialog, _ ->
-                val intent = Intent(PaymentActivity.getIntent(
-                    requireContext(),
-                    amount = 19500,
-                    clientKey = "test_ck_P9BRQmyarYDJ0PmaOmJaVJ07KzLN",
-                    customerKey = "test_sk_E92LAa5PVbNZJ1D5A5aZV7YmpXyJ",
-                    orderId = "orderId",
-                    orderName = "orderName",
-                    currency = PaymentMethod.Rendering.Currency.KRW,
-                    countryCode = "KR",
-                    variantKey = "variantKey",
-//                    redirectUrl = "redirectUrl"
-                ))
+                val intent = Intent(requireContext(), MainActivity::class.java)
                 startActivity(intent)
+                requireActivity().finish()
                 dialog.dismiss()
             }
             val dialog = create()
