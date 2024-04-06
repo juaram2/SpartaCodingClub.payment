@@ -19,12 +19,17 @@ class PaymentViewModel(app: Application): AndroidViewModel(app) {
     val phone = MutableLiveData<String>()
     val address = MutableLiveData<String>()
 
+    val price = MutableLiveData<String>()
 
     init {
-        Log.d("username", shared.getStringPreferences(USER_NAME, null).toString())
-        userName.value = shared.getStringPreferences(USER_NAME, null)
-        email.value = shared.getStringPreferences(EMAIL, null)
-        phone.value = shared.getStringPreferences(PHONE, null)
-        address.value = shared.getStringPreferences(ADDRESS, null)
+        Log.d("PHONE", "${shared.getStringPreferences(PHONE, "연락처를 입력해 주세요")}")
+        userName.value = shared.getStringPreferences(USER_NAME, "이름은 입력해 주세요")
+        email.value = shared.getStringPreferences(EMAIL, "이메일을 입력해 주세요")
+        phone.value = shared.getStringPreferences(PHONE, "연락처를 입력해 주세요")
+        address.value = shared.getStringPreferences(ADDRESS, "주소를 입력해 주세요")
+    }
+
+    fun setPrice(price: String) {
+        this.price.value = price
     }
 }

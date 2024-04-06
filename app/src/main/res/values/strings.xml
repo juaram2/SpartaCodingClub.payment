@@ -37,5 +37,5 @@
 
     <!-- 상품 -->
     <string name="product_option"><b>용량</b>: 80ml - 1개</string>
-    <string name="product_price">$s원</string>
+    <string name="product_price">%d원</string>
 </resources>

@@ -17,7 +17,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="20dp"
             tools:context=".ui.payment.PaymentActivity">
 
 
@@ -79,11 +80,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="@string/product_price"
+                        android:text="@{viewModel.price}"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="@id/productName"
-                        app:layout_constraintTop_toBottomOf="@id/productOption" />
+                        app:layout_constraintTop_toBottomOf="@id/productOption"
+                        tools:text="18000원" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -235,11 +237,21 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/userAddress" />
 
-                    <Spinner
-                        android:id="@+id/spinMemo"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layoutMemo"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:layout_constraintTop_toBottomOf="@id/memoTitle" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:hint="배송 메모를 선택해 주세요"
+                        app:layout_constraintTop_toBottomOf="@id/memoTitle">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/memo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:editable="false" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <Button
                         android:id="@+id/btnEditAddress"
@@ -356,7 +368,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
-                        android:text="보유 포인트 2,300"
+                        android:text="보유 포인트 20,300"
                         android:textColor="@color/black"
                         android:textSize="12sp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -416,6 +428,7 @@
                         android:id="@+id/valuePrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@{viewModel.price}"
                         android:textColor="@color/grey"
                         android:textSize="13sp"
                         app:layout_constraintEnd_toEndOf="parent"

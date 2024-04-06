@@ -11,7 +11,7 @@ class SharedPrefUtil(context: Context) {
     /**
      * Set String data
      * */
-    fun setStringPreferences(key: String, value: String) {
+    fun setStringPreferences(key: String, value: String?) {
         pref.edit().apply {
             putString(key, value)
             apply()

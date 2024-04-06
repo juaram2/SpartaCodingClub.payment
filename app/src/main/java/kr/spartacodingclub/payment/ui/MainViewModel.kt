@@ -25,9 +25,9 @@ class MainViewModel(private val app: Application) : AndroidViewModel(app) {
      */
     fun saveLoginInfo(name: String?, email: String?, phone: String?) {
         val shared = SharedPrefUtil(app)
-        shared.setStringPreferences(USER_NAME, name ?: "")
-        shared.setStringPreferences(EMAIL, email ?: "")
-        shared.setStringPreferences(PHONE, phone ?: "")
+        shared.setStringPreferences(USER_NAME, name)
+        shared.setStringPreferences(EMAIL, email)
+        shared.setStringPreferences(PHONE, phone)
 
         _isSaved.postValue(true)
     }

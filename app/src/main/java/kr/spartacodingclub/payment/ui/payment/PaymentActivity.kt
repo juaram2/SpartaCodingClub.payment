@@ -1,11 +1,9 @@
 package kr.spartacodingclub.payment.ui.payment
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.tosspayments.paymentsdk.PaymentWidget
@@ -13,13 +11,12 @@ import com.tosspayments.paymentsdk.model.AgreementStatus
 import com.tosspayments.paymentsdk.model.AgreementStatusListener
 import com.tosspayments.paymentsdk.model.PaymentCallback
 import com.tosspayments.paymentsdk.model.PaymentMethodEventListener
-import com.tosspayments.paymentsdk.model.PaymentWidgetOptions
 import com.tosspayments.paymentsdk.model.PaymentWidgetStatusListener
 import com.tosspayments.paymentsdk.model.TossPaymentResult
 import com.tosspayments.paymentsdk.view.PaymentMethod
 import kr.spartacodingclub.payment.R
-import kr.spartacodingclub.payment.databinding.ActivityMainBinding
 import kr.spartacodingclub.payment.databinding.ActivityPaymentBinding
+import kr.spartacodingclub.payment.util.Extension.toast
 
 class PaymentActivity : AppCompatActivity() {
 
@@ -93,6 +90,11 @@ class PaymentActivity : AppCompatActivity() {
             addPaymentMethodEventListener(paymentEventListener)
             addAgreementStatusListener(agreementStatusListener)
         }
+
+//        binding.productPrice.text = String.format(getString(R.string.product_price), amount)
+        viewModel.setPrice(String.format(getString(R.string.product_price), amount.toInt()))
+
+        Log.d(TAG, "$amount")
 
         binding.requestPayment.setOnClickListener {
             paymentWidget.requestPayment(
@@ -229,9 +231,6 @@ class PaymentActivity : AppCompatActivity() {
         )
     }
 
-    fun Activity.toast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
 
     companion object {
         private const val TAG = "PaymentActivity"
